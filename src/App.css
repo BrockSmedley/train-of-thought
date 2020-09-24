@@ -1,0 +1,30 @@
+.App {
+  /* display: block; */
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background-color: #221612;
+  color: #DBDCB8;
+}
+
+.content {
+  height: 100%;
+}
+
+.scoot-left {
+  /** disable word wrap **/
+  /* Firefox */
+  white-space: -moz-pre-wrap;
+  /* Opera */
+  white-space: -o-pre-wrap;
+  /* Chrome */
+  white-space: nowrap;
+  /* IE */
+  word-wrap: break-word;
+
+  /* overflow text to the left */
+  direction: rtl;
+}
