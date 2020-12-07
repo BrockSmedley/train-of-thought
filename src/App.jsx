@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { useKeyPress } from "./hooks";
 
-// hard-coding max chars for now; 
-// prob more than can fit on a 4K monitor at native resolution
-const maxChars = () => 83;
+// calculated from width_of_container / width_of_monospace_char
+const maxChars = () => 115;
 const baseThought = "...";
 
 /// returns true if input is an alphabetic char, a number, or a special symbol char
@@ -79,10 +78,13 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <div className="scoot-left" style={{ ...styleTheme(night) }}>
-        {thought}
+    <div style={{display: "flex", flexDirection: "row"}}>
+      <div className="App" style={{...styleTheme(night)}}>
+        <div className="scoot-left" style={{ ...styleTheme(night) }}>
+          {thought}
+        </div>
       </div>
+      <div style={{...styleTheme(night), width: "100%"}}></div>
     </div>
   );
 }
