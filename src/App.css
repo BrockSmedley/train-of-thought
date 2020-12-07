@@ -1,5 +1,8 @@
 .App {
   /* display: block; */
+  padding-right: 420px;
+  padding-top: 420px;
+  width: 800px;
 }
 
 html,
@@ -25,6 +28,14 @@ body {
   /* IE */
   word-wrap: break-word;
 
+  text-align: right;
+
+
+  overflow: hidden;
+  font-family: monospace;
+  font-size: large;
+  zoom: reset;
+
   /* overflow text to the left */
-  direction: rtl;
+  /* direction: rtl; */
 }

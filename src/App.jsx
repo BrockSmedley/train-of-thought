@@ -2,33 +2,33 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { useKeyPress } from "./hooks";
 
-const notLetters = [
-  "Shift",
-  "Alt",
-  "Meta",
-  "Control",
-  "ArrowRight",
-  "ArrowLeft",
-  "ArrowUp",
-  "ArrowDown",
-  "Tab",
-  "CapsLock",
-  "Backspace",
-  "Enter"
-];
-
 // hard-coding max chars for now; 
 // prob more than can fit on a 4K monitor at native resolution
-const maxChars = () => 420;
+const maxChars = () => 83;
 const baseThought = "...";
 
+/// returns true if input is an alphabetic char, a number, or a special symbol char
+const isValidChar = (char) => {
+  if (char.length > 1) {
+    console.log("invalid")
+    return false;
+  }
+  console.log("valid");
+  return true;
+}
+
 function App() {
-  let [thought, setThought] = useState(baseThought);
-  const appendThought = letter => {
-    console.log("letter", letter);
-    console.log("thought", thought);
-    if (thought === baseThought) {
-      if (!notLetters.includes(letter)) {
+  const [thought, setThought] = useState(baseThought);
+  const [letter, setLetter] = useState("");
+
+  const upHandler = useKeyPress(setLetter)[1];
+
+  useEffect(() => {
+    console.log("mounting...");
+    console.log("letter", `'${letter}'`);
+    console.log("thought", `'${thought}'`);
+    if (thought === baseThought && letter.length > 0) {
+      if (isValidChar(letter)) {
         setThought(letter);
       }
     }
@@ -44,9 +44,9 @@ function App() {
       setThought(baseThought);
     }
     else if (letter === " ") {
-      setThought(thought + ' ')
+      setThought(thought + '\xa0')
     }
-    else if (!notLetters.includes(letter)) {
+    else if (isValidChar(letter)) {
       if (thought.length > maxChars()) {
         // trim front of thought
         setThought(thought.slice(1, thought.length) + letter)
@@ -55,23 +55,10 @@ function App() {
         setThought(thought + letter);
       }
     }
-  }
-  // const [keyPressed, upHandler] = useKeyPress(appendThought);
-  const upHandler = useKeyPress(appendThought)[1];
-
-  useEffect(() => {
+    setLetter("");
   }, [thought, upHandler]);
 
-  const Y = 420;
-  const X = 600;
 
-  const style = {
-    paddingRight: X,
-    paddingTop: Y,
-    overflow: "hidden",
-    fontFamily: "monospace",
-    fontSize: "large",
-  };
 
   // const cursor = () => {
   //   return keyPressed ? "|" : "";
@@ -92,13 +79,11 @@ function App() {
   }
 
   return (
-    <>
-      <div className="App">
-        <div className="scoot-left" style={{ ...style, ...styleTheme(night) }}>
-          {thought}
-        </div>
+    <div className="App">
+      <div className="scoot-left" style={{ ...styleTheme(night) }}>
+        {thought}
       </div>
-    </>
+    </div>
   );
 }
 
