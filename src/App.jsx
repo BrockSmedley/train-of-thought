@@ -3,7 +3,7 @@ import './App.css';
 import { useKeyPress } from "./hooks";
 
 // calculated from width_of_container / width_of_monospace_char
-const maxChars = () => 115;
+const maxChars = () => 110;
 const baseThought = "...";
 
 /// returns true if input is an alphabetic char, a number, or a special symbol char
@@ -18,14 +18,14 @@ const isValidChar = (char) => {
 
 function App() {
   const [thought, setThought] = useState(baseThought);
-  const [letter, setLetter] = useState("");
 
-  const upHandler = useKeyPress(setLetter)[1];
+  // for timer
+  const [showCursor, setShowCursor] = useState(true);
 
-  useEffect(() => {
-    console.log("mounting...");
+  const handleKeypress = (letter) => {
     console.log("letter", `'${letter}'`);
     console.log("thought", `'${thought}'`);
+    setShowCursor(false);
     if (thought === baseThought && letter.length > 0) {
       if (isValidChar(letter)) {
         setThought(letter);
@@ -54,10 +54,19 @@ function App() {
         setThought(thought + letter);
       }
     }
-    setLetter("");
-  }, [thought, upHandler]);
+  }
 
+  const upHandler = useKeyPress(handleKeypress)[1];
 
+  useEffect(() => {
+    console.log("mount1");
+    // tick timer
+    let interval = null;
+    interval = setInterval(() => {
+      setShowCursor(!showCursor);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [upHandler]);
 
   // const cursor = () => {
   //   return keyPressed ? "|" : "";
@@ -84,6 +93,9 @@ function App() {
           {thought}
         </div>
       </div>
+      <div style={{...styleTheme(night), paddingTop: 420}}>
+        {showCursor ? "|" : ""}
+        </div>
       <div style={{...styleTheme(night), width: "100%"}}></div>
     </div>
   );
