@@ -28,7 +28,7 @@ const Bar = ({ x, y, width, height, fill, tickTiming }) => {
 
 const Clouds = () => {
     const delay = 41;
-    const index = useTick(delay, 0);
+    const index = useTick(delay, 0) % 9001;
     console.log("index", index);
     let calculatedHeight = 20 * (Math.sin(index / 24) + 1) + 10;
     console.log(calculatedHeight);
