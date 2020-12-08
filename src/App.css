@@ -13,6 +13,11 @@ body {
   height: 100%;
 }
 
+.monospace {
+  font-family: monospace;
+  font-size: large;
+}
+
 .scoot-left {
   /** disable word wrap **/
   /* Firefox */
@@ -26,8 +31,6 @@ body {
 
   text-align: right;
   overflow: hidden;
-  font-family: monospace;
-  font-size: large;
   zoom: reset;
   width: 1096px;
   padding-top: 420px;

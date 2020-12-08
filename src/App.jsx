@@ -80,11 +80,14 @@ function App() {
 
   return (
     <div style={{display: "flex", flexDirection: "row"}}>
-      <div className="App" style={{...styleTheme(night)}}>
+      <div className="App monospace" style={{...styleTheme(night)}}>
         <div className="scoot-left" style={{ ...styleTheme(night) }}>
           {thought}
         </div>
       </div>
+      {/* TODO: figure out why the words go off to the right after a while. Spaces? Special chars? */}
+      {/* <div className="monospace">{`\xa0`}</div>
+      <div className="monospace">{`b`}</div> */}
       <div style={{...styleTheme(night), paddingTop: 420}}>
         {showCursor ? "|" : ""}
         </div>
