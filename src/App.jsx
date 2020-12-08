@@ -9,10 +9,8 @@ const baseThought = "...";
 /// returns true if input is an alphabetic char, a number, or a special symbol char
 const isValidChar = (char) => {
   if (char.length > 1) {
-    console.log("invalid")
     return false;
   }
-  console.log("valid");
   return true;
 }
 
