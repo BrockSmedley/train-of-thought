@@ -22,7 +22,7 @@ function App() {
 
   const handleKeypress = (letter) => {
     setShowCursor(false);
-    if (thought === baseThought && letter.length > 0) {
+    if (thought === baseThought && letter.length > 0 && letter !== " ") {
       if (isValidChar(letter)) {
         setThought(letter);
       }
