@@ -34,7 +34,7 @@ const Clouds = () => {
     console.log(calculatedHeight);
 
     return (
-        <div style={{ width: 300, position: "absolute", top: 170, left: 800 }}>
+        <div style={{ width: 300, position: "absolute", top: 168, left: 820 }}>
             <svg version="1.1" viewBox="0 0 180 150">
                 <g id="root">
                     <g>
