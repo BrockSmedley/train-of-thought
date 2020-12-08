@@ -23,8 +23,6 @@ function App() {
   const [showCursor, setShowCursor] = useState(true);
 
   const handleKeypress = (letter) => {
-    console.log("letter", `'${letter}'`);
-    console.log("thought", `'${thought}'`);
     setShowCursor(false);
     if (thought === baseThought && letter.length > 0) {
       if (isValidChar(letter)) {
@@ -59,7 +57,6 @@ function App() {
   const upHandler = useKeyPress(handleKeypress)[1];
 
   useEffect(() => {
-    console.log("mount1");
     // tick timer
     let interval = null;
     interval = setInterval(() => {
@@ -67,10 +64,6 @@ function App() {
     }, 710);
     return () => clearInterval(interval);
   }, [upHandler]);
-
-  // const cursor = () => {
-  //   return keyPressed ? "|" : "";
-  // }
 
   const tan = {
     backgroundColor: "#2E221E",
