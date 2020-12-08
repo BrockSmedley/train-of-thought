@@ -1,3 +1,12 @@
+## Quickstart
+
+```shell
+nvm install 15
+nvm use 15
+yarn install
+yarn start
+```
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
