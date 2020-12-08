@@ -55,18 +55,19 @@ function App() {
   const upHandler = useKeyPress(handleKeypress)[1];
 
   useEffect(() => {
+    console.log("mount");
     // tick timer
     let interval = null;
     interval = setInterval(() => {
       setShowCursor(!showCursor);
     }, 710);
     return () => clearInterval(interval);
-  }, [upHandler]);
+  }, [upHandler, showCursor]);
 
-  const tan = {
-    backgroundColor: "#2E221E",
-    textColor: "#DBDCB8",
-  };
+  // const tan = {
+  //   backgroundColor: "#2E221E",
+  //   textColor: "#DBDCB8",
+  // };
 
   const night = {
     backgroundColor: "#0D0D0C",
