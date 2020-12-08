@@ -2,33 +2,28 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { useKeyPress } from "./hooks";
 
-const notLetters = [
-  "Shift",
-  "Alt",
-  "Meta",
-  "Control",
-  "ArrowRight",
-  "ArrowLeft",
-  "ArrowUp",
-  "ArrowDown",
-  "Tab",
-  "CapsLock",
-  "Backspace",
-  "Enter"
-];
-
-// hard-coding max chars for now; 
-// prob more than can fit on a 4K monitor at native resolution
-const maxChars = () => 420;
+// calculated from width_of_container / width_of_monospace_char
+const maxChars = () => 110;
 const baseThought = "...";
 
+/// returns true if input is an alphabetic char, a number, or a special symbol char
+const isValidChar = (char) => {
+  if (char.length > 1) {
+    return false;
+  }
+  return true;
+}
+
 function App() {
-  let [thought, setThought] = useState(baseThought);
-  const appendThought = letter => {
-    console.log("letter", letter);
-    console.log("thought", thought);
-    if (thought === baseThought) {
-      if (!notLetters.includes(letter)) {
+  const [thought, setThought] = useState(baseThought);
+
+  // for timer
+  const [showCursor, setShowCursor] = useState(true);
+
+  const handleKeypress = (letter) => {
+    setShowCursor(false);
+    if (thought === baseThought && letter.length > 0 && letter !== " ") {
+      if (isValidChar(letter)) {
         setThought(letter);
       }
     }
@@ -44,9 +39,9 @@ function App() {
       setThought(baseThought);
     }
     else if (letter === " ") {
-      setThought(thought + ' ')
+      setThought(thought + '\xa0')
     }
-    else if (!notLetters.includes(letter)) {
+    else if (isValidChar(letter)) {
       if (thought.length > maxChars()) {
         // trim front of thought
         setThought(thought.slice(1, thought.length) + letter)
@@ -56,31 +51,23 @@ function App() {
       }
     }
   }
-  // const [keyPressed, upHandler] = useKeyPress(appendThought);
-  const upHandler = useKeyPress(appendThought)[1];
+
+  const upHandler = useKeyPress(handleKeypress)[1];
 
   useEffect(() => {
-  }, [thought, upHandler]);
+    console.log("mount");
+    // tick timer
+    let interval = null;
+    interval = setInterval(() => {
+      setShowCursor(!showCursor);
+    }, 710);
+    return () => clearInterval(interval);
+  }, [upHandler, showCursor]);
 
-  const Y = 420;
-  const X = 600;
-
-  const style = {
-    paddingRight: X,
-    paddingTop: Y,
-    overflow: "hidden",
-    fontFamily: "monospace",
-    fontSize: "large",
-  };
-
-  // const cursor = () => {
-  //   return keyPressed ? "|" : "";
-  // }
-
-  const tan = {
-    backgroundColor: "#2E221E",
-    textColor: "#DBDCB8",
-  };
+  // const tan = {
+  //   backgroundColor: "#2E221E",
+  //   textColor: "#DBDCB8",
+  // };
 
   const night = {
     backgroundColor: "#0D0D0C",
@@ -92,13 +79,20 @@ function App() {
   }
 
   return (
-    <>
-      <div className="App">
-        <div className="scoot-left" style={{ ...style, ...styleTheme(night) }}>
+    <div style={{display: "flex", flexDirection: "row"}}>
+      <div className="App monospace" style={{...styleTheme(night)}}>
+        <div className="scoot-left" style={{ ...styleTheme(night) }}>
           {thought}
         </div>
       </div>
-    </>
+      {/* TODO: figure out why the words go off to the right after a while. Spaces? Special chars? */}
+      {/* <div className="monospace">{`\xa0`}</div>
+      <div className="monospace">{`b`}</div> */}
+      <div style={{...styleTheme(night), paddingTop: 420}}>
+        {showCursor ? "|" : ""}
+        </div>
+      <div style={{...styleTheme(night), width: "100%"}}></div>
+    </div>
   );
 }
 
