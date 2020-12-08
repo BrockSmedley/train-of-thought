@@ -34,11 +34,11 @@ const Clouds = () => {
     console.log(calculatedHeight);
 
     return (
-        <div style={{ width: 300, position: "absolute", top: 180, left: 800 }}>
+        <div style={{ width: 300, position: "absolute", top: 170, left: 800 }}>
             <svg version="1.1" viewBox="0 0 180 150">
                 <g id="root">
                     <g>
-                        {[36, 26, 9, 9, 26].map((d, i) => <Bar tickTiming={index} x={60 * (1 - i / 4) + 24 * i + 50} y={(75 + i * 4)} width={24 / (1.0 + (calculatedHeight / 60))} height={calculatedHeight} fill={`${colors[i]}${7}`} />)}
+                        {[36, 26, 9, 9, 26].map((d, i) => <Bar tickTiming={index} x={60 * (1 - i / 4) + 24 * i + 50} y={(75 + i * 4) + (i * (calculatedHeight / 5)) * Math.cos(i * 10 + calculatedHeight / 4)} width={16} height={calculatedHeight / 1.5 + 10} fill={`${colors[i]}${7}`} />)}
                     </g>
                 </g>
             </svg>
