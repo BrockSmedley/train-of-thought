@@ -64,7 +64,7 @@ function App() {
     let interval = null;
     interval = setInterval(() => {
       setShowCursor(!showCursor);
-    }, 1000);
+    }, 710);
     return () => clearInterval(interval);
   }, [upHandler]);
 
