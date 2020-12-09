@@ -1,11 +1,12 @@
-.App {
-}
+/* .App {
+  
+} */
 
 html,
 body {
   height: 100%;
   width: 100%;
-  background-color: #632310;
+  background-color: #63231085;
   color: #DBDCB8;
 }
 
@@ -19,22 +20,24 @@ body {
 }
 
 .scoot-left {
-  /** disable word wrap **/
-  /* Firefox */
-  white-space: -moz-pre-wrap;
-  /* Opera */
-  white-space: -o-pre-wrap;
-  /* Chrome */
-  white-space: nowrap;
-  /* IE */
-  word-wrap: break-word;
-
   text-align: right;
   overflow: hidden;
   zoom: reset;
   width: 1096px;
   padding-top: 420px;
+}
 
-  /* overflow text to the left */
-  /* direction: rtl; */
+.cursor {
+  padding-top: 420px;
+}
+
+.right-sky {
+  width: 100%;
+}
+
+.thoughts {
+  word-wrap: break-word;
+  position: relative;
+  padding-left: 18px;
+  width: 1024px;
 }
