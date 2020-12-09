@@ -4,8 +4,10 @@ import { useKeyPress } from "./hooks";
 import Clouds from './Clouds';
 
 // calculated from width_of_container / width_of_monospace_char
-const maxChars = () => 110;
+const maxChars = 110;
 const baseThought = "...";
+const cursorInterval = 710;
+
 
 /// returns true if input is an alphabetic char, a number, or a special symbol char
 const isValidChar = (char) => {
@@ -17,18 +19,20 @@ const isValidChar = (char) => {
 
 function App() {
   const [thought, setThought] = useState(baseThought);
+  const [thoughts, setThoughts] = useState();
+
+  const pushThought = (thought) => {
+    let tempThoughts = thoughts || [];
+    tempThoughts.push(thought);
+    setThoughts(tempThoughts);
+  }
 
   // for timer
   const [showCursor, setShowCursor] = useState(true);
 
   const handleKeypress = (letter) => {
     setShowCursor(false);
-    if (thought === baseThought && letter.length > 0 && letter !== " ") {
-      if (isValidChar(letter)) {
-        setThought(letter);
-      }
-    }
-    else if (letter === "Backspace") {
+    if (letter === "Backspace") {
       if (thought.length === 1) {
         setThought(baseThought);
       }
@@ -37,15 +41,17 @@ function App() {
       }
     }
     else if (letter === "Enter") {
+      pushThought(thought);
       setThought(baseThought);
     }
     else if (letter === " ") {
-      setThought(thought + '\xa0')
+      // allow multiple spaces to be rendered
+      if (thought !== baseThought)
+        setThought(thought + '\xa0')
     }
     else if (isValidChar(letter)) {
-      if (thought.length > maxChars()) {
-        // trim front of thought
-        setThought(thought.slice(1, thought.length) + letter)
+      if (thought === baseThought) {
+        setThought(letter);
       }
       else {
         setThought(thought + letter);
@@ -56,19 +62,15 @@ function App() {
   const upHandler = useKeyPress(handleKeypress)[1];
 
   useEffect(() => {
-    console.log("mount");
     // tick timer
     let interval = null;
     interval = setInterval(() => {
       setShowCursor(!showCursor);
-    }, 710);
-    return () => clearInterval(interval);
-  }, [upHandler, showCursor]);
+    }, cursorInterval);
 
-  // const tan = {
-  //   backgroundColor: "#2E221E",
-  //   textColor: "#DBDCB8",
-  // };
+    // destructor
+    return () => clearInterval(interval);
+  }, [upHandler, showCursor, thoughts]);
 
   const night = {
     backgroundColor: "#0D0D0C",
@@ -79,22 +81,37 @@ function App() {
     return { color: theme.textColor, backgroundColor: theme.backgroundColor };
   }
 
+  const getReverseThoughts = () => {
+    if (!thoughts || thoughts.length === 0) {
+      return [];
+    }
+    let revThoughts = [].concat(thoughts);
+    return revThoughts.reverse();
+  }
+
+  /// trims thought for typing display to prevent screen-wise overflow
+  const renderThought = (thought) => {
+    return thought.slice(Math.max(thought.length - maxChars, 0), thought.length);
+  }
+
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
-      <div className="App monospace" style={{ ...styleTheme(night) }}>
-        <div className="scoot-left" style={{ ...styleTheme(night) }}>
-          {thought}
+    <>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <div className="App monospace" style={{ ...styleTheme(night) }}>
+          <div className="scoot-left" style={{ ...styleTheme(night) }}>
+            {renderThought(thought)}
+          </div>
         </div>
+        <Clouds />
+        <div style={{ ...styleTheme(night), paddingTop: 420 }}>
+          {showCursor ? "|" : ""}
+        </div>
+        <div style={{ ...styleTheme(night), width: "100%" }}></div>
       </div>
-      {/* TODO: figure out why the words go off to the right after a while. Spaces? Special chars? */}
-      {/* <div className="monospace">{`\xa0`}</div>
-      <div className="monospace">{`b`}</div> */}
-      <Clouds />
-      <div style={{ ...styleTheme(night), paddingTop: 420 }}>
-        {showCursor ? "|" : ""}
+      <div className="thoughts">
+        {getReverseThoughts().map((thought, idx) => <p key={idx}>{thought}</p>)}
       </div>
-      <div style={{ ...styleTheme(night), width: "100%" }}></div>
-    </div>
+    </>
   );
 }
 
