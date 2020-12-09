@@ -4,7 +4,7 @@ import { useKeyPress } from "./hooks";
 import Clouds from './Clouds';
 
 // calculated from width_of_container / width_of_monospace_char
-const maxChars = 110;
+const maxChars = 114;
 const baseThought = "...";
 const cursorInterval = 710;
 
