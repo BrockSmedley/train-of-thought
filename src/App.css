@@ -27,6 +27,14 @@ body {
   padding-top: 420px;
 }
 
+.cursor {
+  padding-top: 420px;
+}
+
+.right-sky {
+  width: 100%;
+}
+
 .thoughts {
   word-wrap: break-word;
   position: relative;

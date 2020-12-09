@@ -103,10 +103,10 @@ function App() {
           </div>
         </div>
         <Clouds />
-        <div style={{ ...styleTheme(night), paddingTop: 420 }}>
+        <div className="cursor" style={{ ...styleTheme(night) }}>
           {showCursor ? "|" : ""}
         </div>
-        <div style={{ ...styleTheme(night), width: "100%" }}></div>
+        <div className="right-sky" style={{ ...styleTheme(night) }}></div>
       </div>
       <div className="thoughts">
         {getReverseThoughts().map((thought, idx) => <p key={idx}>{thought}</p>)}
