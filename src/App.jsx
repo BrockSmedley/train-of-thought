@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { useKeyPress } from "./hooks";
+import Clouds from './Clouds';
 
 // calculated from width_of_container / width_of_monospace_char
 const maxChars = () => 110;
@@ -79,8 +80,8 @@ function App() {
   }
 
   return (
-    <div style={{display: "flex", flexDirection: "row"}}>
-      <div className="App monospace" style={{...styleTheme(night)}}>
+    <div style={{ display: "flex", flexDirection: "row" }}>
+      <div className="App monospace" style={{ ...styleTheme(night) }}>
         <div className="scoot-left" style={{ ...styleTheme(night) }}>
           {thought}
         </div>
@@ -88,10 +89,11 @@ function App() {
       {/* TODO: figure out why the words go off to the right after a while. Spaces? Special chars? */}
       {/* <div className="monospace">{`\xa0`}</div>
       <div className="monospace">{`b`}</div> */}
-      <div style={{...styleTheme(night), paddingTop: 420}}>
+      <Clouds />
+      <div style={{ ...styleTheme(night), paddingTop: 420 }}>
         {showCursor ? "|" : ""}
-        </div>
-      <div style={{...styleTheme(night), width: "100%"}}></div>
+      </div>
+      <div style={{ ...styleTheme(night), width: "100%" }}></div>
     </div>
   );
 }
