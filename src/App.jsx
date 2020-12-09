@@ -8,6 +8,11 @@ const maxChars = 114;
 const baseThought = "...";
 const cursorInterval = 710;
 
+// theme
+const night = {
+  backgroundColor: "#0D0D0C",
+  textColor: "#15C87C",
+};
 
 /// returns true if input is an alphabetic char, a number, or a special symbol char
 const isValidChar = (char) => {
@@ -17,19 +22,18 @@ const isValidChar = (char) => {
   return true;
 }
 
+/// Returns a style object given a theme.
+const styleTheme = theme => {
+  return { color: theme.textColor, backgroundColor: theme.backgroundColor };
+}
+
 function App() {
   const [thought, setThought] = useState(baseThought);
   const [thoughts, setThoughts] = useState();
-
-  const pushThought = (thought) => {
-    let tempThoughts = thoughts || [];
-    tempThoughts.push(thought);
-    setThoughts(tempThoughts);
-  }
-
-  // for timer
   const [showCursor, setShowCursor] = useState(true);
 
+  // Appends only valid chars to a thought.
+  // Handles special chars & their actions.
   const handleKeypress = (letter) => {
     setShowCursor(false);
     if (letter === "Backspace") {
@@ -59,10 +63,31 @@ function App() {
     }
   }
 
+  // register keypress handler
   const upHandler = useKeyPress(handleKeypress)[1];
 
+  /// Pushes a thought to `thoughts`
+  const pushThought = (thought) => {
+    let tempThoughts = thoughts || [];
+    tempThoughts.push(thought);
+    setThoughts(tempThoughts);
+  }
+
+  /// Returns thoughts in reverse-order.
+  const getReverseThoughts = () => {
+    if (!thoughts || thoughts.length === 0) {
+      return [];
+    }
+    return [].concat(thoughts).reverse();
+  }
+
+  /// Trims thought for typing display to prevent screen-wise overflow
+  const renderThought = (thought) => {
+    return thought.slice(Math.max(thought.length - maxChars, 0), thought.length);
+  }
+
   useEffect(() => {
-    // tick timer
+    // cursor timer
     let interval = null;
     interval = setInterval(() => {
       setShowCursor(!showCursor);
@@ -71,28 +96,6 @@ function App() {
     // destructor
     return () => clearInterval(interval);
   }, [upHandler, showCursor, thoughts]);
-
-  const night = {
-    backgroundColor: "#0D0D0C",
-    textColor: "#15C87C",
-  };
-
-  const styleTheme = theme => {
-    return { color: theme.textColor, backgroundColor: theme.backgroundColor };
-  }
-
-  const getReverseThoughts = () => {
-    if (!thoughts || thoughts.length === 0) {
-      return [];
-    }
-    let revThoughts = [].concat(thoughts);
-    return revThoughts.reverse();
-  }
-
-  /// trims thought for typing display to prevent screen-wise overflow
-  const renderThought = (thought) => {
-    return thought.slice(Math.max(thought.length - maxChars, 0), thought.length);
-  }
 
   return (
     <>
