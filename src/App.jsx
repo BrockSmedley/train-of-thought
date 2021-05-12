@@ -106,7 +106,7 @@ function App() {
           </div>
         </div>
         <Clouds />
-        <div className="cursor" style={{ ...styleTheme(night) }}>
+        <div className="cursor" style={{ ...styleTheme(night), position: "absolute", left: 1097 }}>
           {showCursor ? "|" : ""}
         </div>
         <div className="right-sky" style={{ ...styleTheme(night) }}></div>
