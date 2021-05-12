@@ -86,6 +86,24 @@ function App() {
     return thought.slice(Math.max(thought.length - maxChars, 0), thought.length);
   }
 
+  const save = e => {
+    e.preventDefault();
+    if (!thoughts) return;
+    const now = new Date();
+    const time = now.toLocaleTimeString();
+    const date = now.toLocaleDateString();
+    let thoughtString = "";
+    thoughts.map(thought => thoughtString += (thought + "\n"));
+    
+    let element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(thoughtString));
+    element.setAttribute('download', `thoughts-${date}-${time}.txt`);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+
   useEffect(() => {
     // cursor timer
     let interval = null;
@@ -112,7 +130,10 @@ function App() {
         <div className="right-sky" style={{ ...styleTheme(night) }}></div>
       </div>
       <div className="thoughts">
-        {getReverseThoughts().map((thought, idx) => <p key={idx}>{thought}</p>)}
+        <a href="/" onClick={save} style={{position: "fixed", bottom: 10, right: 10, fontFamily: "monospace", color: "whitesmoke"}}>save thoughts</a>
+        <div style={{marginTop: 20}}>
+          {getReverseThoughts().map((thought, idx) => <p style={{margin: 0, marginBottom: 8}} key={idx}>{thought}</p>)}
+        </div>
       </div>
     </>
   );
